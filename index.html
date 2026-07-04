@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="QRCo — Generador de códigos QR y credenciales personalizadas" />
+  <meta name="theme-color" content="#6366f1" />
+  <title>QRCo</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><rect x='3' y='3' width='7' height='7' rx='1'/><rect x='14' y='3' width='7' height='7' rx='1'/><rect x='3' y='14' width='7' height='7' rx='1'/><rect x='10' y='10' width='4' height='4' rx='1'/><rect x='14' y='14' width='3' height='3' rx='1'/><rect x='18' y='14' width='3' height='3' rx='1'/><rect x='14' y='18' width='3' height='3' rx='1'/><rect x='18' y='18' width='3' height='3' rx='1'/></svg>" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/shell.css" />
+  <link rel="stylesheet" href="css/qr.css" />
+  <link rel="stylesheet" href="css/credentials.css" />
+  <link rel="stylesheet" href="css/carnet.css" />
+  <link rel="stylesheet" href="css/history.css" />
+</head>
+<body>
+
+  <!-- ─── SHELL ─── -->
+  <div class="app" id="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header__brand">
+        <svg class="header__logo" viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="10" y="10" width="4" height="4" rx="1" />
+          <rect x="14" y="14" width="3" height="3" rx="1" />
+          <rect x="18" y="14" width="3" height="3" rx="1" />
+          <rect x="14" y="18" width="3" height="3" rx="1" />
+          <rect x="18" y="18" width="3" height="3" rx="1" />
+        </svg>
+        <span class="header__title">QRCo</span>
+      </div>
+      <nav class="nav-top">
+        <button class="nav-top__item nav-top__item--active" data-section="qr" data-i18n="footer.navQr">QR</button>
+        <button class="nav-top__item" data-section="credenciales" data-i18n="footer.navCred">Credenciales</button>
+        <button class="nav-top__item" data-section="carnet" data-i18n="footer.navCarnet">Carnet</button>
+      </nav>
+      <div class="toolbar">
+        <button class="toolbar__btn" id="btnLang" data-i18n="toolbar.lang" aria-label="Toggle language">
+          <svg class="toolbar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a10 10 0 1 0 10 10M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span id="langLabel">ES</span>
+        </button>
+        <button class="toolbar__btn" id="btnTheme" aria-label="Toggle theme">
+          <svg class="toolbar__icon" id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <button class="toolbar__btn" id="btnHistory" data-i18n="toolbar.history" aria-label="History">
+          <svg class="toolbar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main">
+
+      <!-- ====== QR GENERATOR TAB ====== -->
+      <section class="panel panel--active" id="panelQr" role="tabpanel">
+
+        <div class="qr-form">
+          <div class="qr-form__group">
+            <label class="qr-form__label" for="qrInput" data-i18n="qr.urlLabel">URL o texto</label>
+            <input class="qr-form__input" id="qrInput" type="text" placeholder="https://ejemplo.com" data-i18n-placeholder="qr.urlPlaceholder" />
+            <p class="qr-form__error" id="qrError"></p>
+          </div>
+
+          <details class="qr-advanced">
+            <summary class="qr-advanced__summary" data-i18n="qr.advanced">Opciones avanzadas</summary>
+            <div class="qr-advanced__grid">
+
+              <div class="qr-advanced__field">
+                <label class="qr-advanced__label" data-i18n="qr.errorLevel">Corrección de errores</label>
+                <select class="qr-advanced__select" id="qrErrorLevel">
+                  <option value="L">L (7%)</option>
+                  <option value="M" selected>M (15%)</option>
+                  <option value="Q">Q (25%)</option>
+                  <option value="H">H (30%)</option>
+                </select>
+              </div>
+
+              <div class="qr-advanced__field">
+                <label class="qr-advanced__label" data-i18n="qr.size">Tamaño (px)</label>
+                <select class="qr-advanced__select" id="qrSize">
+                  <option value="128">128</option>
+                  <option value="256" selected>256</option>
+                  <option value="512">512</option>
+                  <option value="1024">1024</option>
+                </select>
+              </div>
+
+              <div class="qr-advanced__field">
+                <label class="qr-advanced__label" data-i18n="qr.margin">Margen</label>
+                <select class="qr-advanced__select" id="qrMargin">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2" selected>2</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+
+              <div class="qr-advanced__field">
+                <label class="qr-advanced__label" data-i18n="qr.fgColor">Color del código</label>
+                <input class="qr-advanced__color" id="qrFgColor" type="color" value="#000000" />
+              </div>
+
+              <div class="qr-advanced__field">
+                <label class="qr-advanced__label" data-i18n="qr.bgColor">Color de fondo</label>
+                <input class="qr-advanced__color" id="qrBgColor" type="color" value="#ffffff" />
+              </div>
+
+              <div class="qr-advanced__field">
+                <label class="qr-advanced__label" data-i18n="qr.logo">Logo central</label>
+                <input class="qr-advanced__file" id="qrLogo" type="file" accept="image/*" />
+              </div>
+
+            </div>
+          </details>
+
+          <div class="qr-form__actions">
+            <button class="btn btn--primary" id="btnGenerateQr" data-i18n="qr.generate">Generar QR</button>
+          </div>
+        </div>
+
+        <div class="qr-result" id="qrResult" style="display:none">
+          <div class="qr-result__canvas-wrapper">
+            <canvas id="qrCanvas"></canvas>
+          </div>
+          <div class="qr-result__actions">
+            <button class="btn btn--secondary" id="btnDownloadPng" data-i18n="qr.downloadPng">Descargar PNG</button>
+            <button class="btn btn--secondary" id="btnCopyClipboard" data-i18n="qr.copyClipboard">Copiar al portapapeles</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====== CREDENCIALES (USERNAME + PASSWORD) ====== -->
+      <section class="panel" id="panelCredenciales" role="tabpanel">
+
+        <div class="cred-form">
+          <div class="cred-form__group">
+            <label class="cred-form__label" for="credName" data-i18n="cred.name">Nombre completo</label>
+            <input class="cred-form__input" id="credName" type="text" data-i18n-placeholder="cred.namePlaceholder" />
+          </div>
+
+          <div class="cred-gen">
+            <div class="cred-gen__field">
+              <label class="cred-gen__label" for="credUsername" data-i18n="cred.username">Usuario</label>
+              <div class="cred-gen__row">
+                <input class="cred-gen__input" id="credUsername" type="text" readonly />
+                <button class="btn btn--small" id="btnGenUsername" data-i18n="cred.genUsername">Generar</button>
+              </div>
+            </div>
+            <div class="cred-gen__field">
+              <label class="cred-gen__label" for="credPassword" data-i18n="cred.password">Contraseña</label>
+              <div class="cred-gen__row">
+                <input class="cred-gen__input" id="credPassword" type="text" readonly />
+                <button class="btn btn--small" id="btnGenPassword" data-i18n="cred.genPassword">Generar</button>
+                <button class="btn btn--small" id="btnCopyPassword" data-i18n="cred.copyPassword">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <details class="cred-advanced">
+            <summary class="cred-advanced__summary" data-i18n="cred.pwdComplexity">Complejidad de contraseña</summary>
+            <div class="cred-advanced__body">
+              <div class="cred-advanced__row">
+                <label class="cred-advanced__label" for="credPwdLength" data-i18n="cred.pwdLength">Longitud</label>
+                <div class="cred-advanced__length">
+                  <input class="cred-advanced__range" id="credPwdLength" type="range" min="6" max="32" value="16" />
+                  <span class="cred-advanced__value" id="credPwdLengthVal">16</span>
+                </div>
+              </div>
+              <div class="cred-advanced__row">
+                <label class="cred-advanced__label" data-i18n="cred.pwdCharset">Incluir</label>
+                <div class="cred-advanced__chk-group">
+                  <label class="cred-advanced__chk">
+                    <input type="checkbox" id="credChkUpper" checked />
+                    <span data-i18n="cred.chkUpper">A-Z</span>
+                  </label>
+                  <label class="cred-advanced__chk">
+                    <input type="checkbox" id="credChkLower" checked />
+                    <span data-i18n="cred.chkLower">a-z</span>
+                  </label>
+                  <label class="cred-advanced__chk">
+                    <input type="checkbox" id="credChkNumber" checked />
+                    <span data-i18n="cred.chkNumber">0-9</span>
+                  </label>
+                  <label class="cred-advanced__chk">
+                    <input type="checkbox" id="credChkSymbol" checked />
+                    <span data-i18n="cred.chkSymbol">!@#$%&amp;*</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <div class="cred-form__actions">
+            <button class="btn btn--primary" id="btnSaveCred" data-i18n="cred.save">Guardar credencial</button>
+          </div>
+        </div>
+
+        <div class="cred-saved" id="credSaved" style="display:none">
+          <h3 class="cred-saved__title" data-i18n="cred.savedTitle">Credenciales guardadas</h3>
+          <div class="cred-saved__list" id="credSavedList"></div>
+        </div>
+
+      </section>
+
+      <!-- ====== CARNET (PHYSICAL CARD) ====== -->
+      <section class="panel" id="panelCarnet" role="tabpanel">
+
+        <div class="carnet-form" id="carnetForm">
+          <div class="carnet-form__group">
+            <label class="carnet-form__label" for="carnetName" data-i18n="carnet.name">Nombre completo</label>
+            <input class="carnet-form__input" id="carnetName" type="text" data-i18n-placeholder="carnet.namePlaceholder" />
+          </div>
+          <div class="carnet-form__group">
+            <label class="carnet-form__label" for="carnetUsername" data-i18n="carnet.username">Usuario / ID</label>
+            <input class="carnet-form__input" id="carnetUsername" type="text" data-i18n-placeholder="carnet.usernamePlaceholder" />
+          </div>
+          <div class="carnet-form__group">
+            <label class="carnet-form__label" for="carnetOrg" data-i18n="carnet.org">Empresa *</label>
+            <input class="carnet-form__input" id="carnetOrg" type="text" data-i18n-placeholder="carnet.orgPlaceholder" />
+            <p class="carnet-form__error" id="carnetError"></p>
+          </div>
+          <div class="carnet-form__grid">
+            <div class="carnet-form__group">
+              <label class="carnet-form__label" for="carnetPhoto" data-i18n="carnet.photo">Foto / Avatar</label>
+              <input class="carnet-form__file" id="carnetPhoto" type="file" accept="image/*" />
+              <div class="carnet-form__photo-preview" id="carnetPhotoPreview"></div>
+            </div>
+            <div class="carnet-form__group">
+              <label class="carnet-form__label" for="carnetAccent" data-i18n="carnet.accent">Color de acento</label>
+              <input class="carnet-form__color" id="carnetAccent" type="color" value="#6366f1" />
+            </div>
+            <div class="carnet-form__group">
+              <label class="carnet-form__label" for="carnetLevel" data-i18n="carnet.levelLabel">Nivel de diseño</label>
+              <select class="carnet-form__select" id="carnetLevel">
+                <option value="standard" selected data-i18n-op="cred.levelStandard">Estándar</option>
+                <option value="full" data-i18n-op="cred.levelFull">Completo</option>
+              </select>
+            </div>
+            <div class="carnet-form__group">
+              <label class="carnet-form__label" data-i18n="carnet.orientation">Orientación</label>
+              <div class="carnet-form__orient">
+                <button class="carnet-form__orient-btn carnet-form__orient-btn--active" data-orient="horizontal" id="carnetOrientH">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <rect x="3" y="7" width="18" height="10" rx="1"/>
+                  </svg>
+                  <span data-i18n="carnet.horizontal">Horizontal</span>
+                </button>
+                <button class="carnet-form__orient-btn" data-orient="vertical" id="carnetOrientV">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <rect x="7" y="3" width="10" height="18" rx="1"/>
+                  </svg>
+                  <span data-i18n="carnet.vertical">Vertical</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="carnet-form__group">
+            <label class="carnet-form__label" for="carnetText" data-i18n="carnet.freeText">Texto libre (reverso)</label>
+            <textarea class="carnet-form__textarea" id="carnetText" rows="3" data-i18n-placeholder="carnet.freeTextPlaceholder"></textarea>
+          </div>
+          <div class="carnet-form__actions">
+            <button class="btn btn--primary" id="btnGenCarnet" data-i18n="carnet.generate">Generar carnet</button>
+          </div>
+        </div>
+
+        <div class="carnet-result" id="carnetResult" style="display:none">
+          <div class="carnet-result__preview">
+            <div class="cred-card" id="carnetCard">
+              <div class="cred-card__front">
+                <div class="cred-card__header" id="carnetCardHeader">
+                  <div class="cred-card__initial" id="carnetInitial"></div>
+                  <div class="cred-card__org-info">
+                    <span class="cred-card__org-label" data-i18n="cred.orgLabel">ORGANIZACIÓN</span>
+                    <span class="cred-card__org-name" id="carnetCardOrg"></span>
+                  </div>
+                </div>
+                <div class="cred-card__body">
+                  <div class="cred-card__avatar" id="carnetCardAvatar"></div>
+                  <div class="cred-card__info">
+                    <span class="cred-card__name" id="carnetCardName"></span>
+                    <span class="cred-card__id" id="carnetCardId"></span>
+                  </div>
+                </div>
+                <div class="cred-card__footer">
+                  <span class="cred-card__type-badge" id="carnetCardType">CARNET</span>
+                </div>
+              </div>
+              <div class="cred-card__back" id="carnetCardBack" style="display:none">
+                <div class="cred-card__qr" id="carnetCardQr"></div>
+                <div class="cred-card__text" id="carnetCardText"></div>
+              </div>
+            </div>
+          </div>
+          <div class="carnet-result__actions">
+            <button class="btn btn--secondary" id="carnetExportPng" data-i18n="cred.exportPng">Exportar PNG</button>
+            <button class="btn btn--secondary" id="carnetExportPdf" data-i18n="cred.exportPdf">Exportar PDF</button>
+            <button class="btn btn--secondary" id="carnetFlipCard" data-i18n="cred.flip">Ver reverso</button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <p class="credit">QRCo &mdash; <span data-i18n="footer.credit">Desarrollado por BMAS-DEV</span></p>
+
+    <!-- ─── BOTTOM NAV (MOBILE) ─── -->
+    <nav class="nav-bottom">
+      <button class="nav-bottom__item nav-bottom__item--active" data-section="qr">
+        <svg class="nav-bottom__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/>
+          <rect x="14" y="14" width="3" height="3" rx="1"/><rect x="18" y="14" width="3" height="3" rx="1"/>
+          <rect x="14" y="18" width="3" height="3" rx="1"/><rect x="18" y="18" width="3" height="3" rx="1"/>
+        </svg>
+        <span class="nav-bottom__label" data-i18n="footer.navQr">QR</span>
+      </button>
+      <button class="nav-bottom__item" data-section="credenciales">
+        <svg class="nav-bottom__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="10" r="3"/>
+          <path d="M5 20c0-3 3-6 7-6s7 3 7 6"/>
+        </svg>
+        <span class="nav-bottom__label" data-i18n="footer.navCred">Credenciales</span>
+      </button>
+      <button class="nav-bottom__item" data-section="carnet">
+        <svg class="nav-bottom__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+          <rect x="6" y="12" width="6" height="3" rx="1"/>
+        </svg>
+        <span class="nav-bottom__label" data-i18n="footer.navCarnet">Carnet</span>
+      </button>
+    </nav>
+
+    <!-- ─── ONBOARDING MODAL ─── -->
+    <div class="modal" id="onboardingModal" role="dialog" aria-modal="true" style="display:none">
+      <div class="modal__backdrop"></div>
+      <div class="modal__content modal__content--onboarding">
+        <h2 class="modal__title" data-i18n="onboarding.title">Bienvenido a QRCo</h2>
+        <p class="modal__desc" data-i18n="onboarding.desc">Cuéntanos sobre ti para personalizar tu experiencia.</p>
+        <div class="modal__form">
+          <div class="modal__group">
+            <label class="modal__label" for="onName" data-i18n="onboarding.nameLabel">Tu nombre</label>
+            <input class="modal__input" id="onName" type="text" data-i18n-placeholder="onboarding.namePlaceholder" />
+          </div>
+        </div>
+        <button class="btn btn--primary modal__submit" id="onSubmit" data-i18n="onboarding.start">Comenzar</button>
+      </div>
+    </div>
+
+    <!-- ─── HISTORY MODAL ─── -->
+    <div class="modal" id="historyModal" role="dialog" aria-modal="true" style="display:none">
+      <div class="modal__backdrop"></div>
+      <div class="modal__content modal__content--history">
+        <div class="modal__header">
+          <h2 class="modal__title" data-i18n="history.title">Historial</h2>
+          <button class="modal__close" id="historyClose" aria-label="Close">&times;</button>
+        </div>
+        <div class="history-tabs">
+          <button class="history-tabs__item history-tabs__item--active" data-history-tab="qr" data-i18n="history.qrTab">QR</button>
+          <button class="history-tabs__item" data-history-tab="cred" data-i18n="history.credTab">Credenciales</button>
+          <button class="history-tabs__item" data-history-tab="carnet" data-i18n="history.carnetTab">Carnet</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <p class="history-list__empty" data-i18n="history.empty">Sin entradas aún</p>
+        </div>
+        <button class="btn btn--danger history__clear" id="historyClear" data-i18n="history.clear">Limpiar todo</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="lib/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/onboarding.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/credentials.js"></script>
+  <script src="js/carnet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
