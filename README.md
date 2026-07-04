@@ -22,7 +22,7 @@ npx serve .
 # o abrir index.html directamente
 ```
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
 
 ## Créditos
 
