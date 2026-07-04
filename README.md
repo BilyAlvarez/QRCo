@@ -2,6 +2,10 @@
 
 Generador de códigos QR y carnets personalizados. SPA vanilla (HTML + CSS + JS).
 
+## Demo
+
+[https://bilyalvarez.github.io/QRCo](https://bilyalvarez.github.io/QRCo)
+
 ## Funcionalidades
 
 - **QR Generator** — Genera códigos QR desde URL/texto con opciones de color, tamaño, margen, corrección de errores y logo central. Exporta PNG y copia al portapapeles.
@@ -15,14 +19,16 @@ Generador de códigos QR y carnets personalizados. SPA vanilla (HTML + CSS + JS)
 - [jsPDF](https://github.com/parallax/jsPDF) (vía CDN)
 - Temas claro/oscuro · i18n ES/EN · localStorage
 
-## Deploy
+## Deploy local
 
 ```bash
 npx serve .
 # o abrir index.html directamente
 ```
 
+## Deploy automático
 
+Al hacer push a `main`, GitHub Actions despliega automáticamente a GitHub Pages.
 
 ## Créditos
 
