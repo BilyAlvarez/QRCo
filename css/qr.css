@@ -1,0 +1,152 @@
+/* ─── QR GENERATOR ─── */
+
+.qr-form {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.qr-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.qr-form__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.qr-form__input {
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-family: var(--font-mono);
+  transition: border-color var(--transition);
+}
+
+.qr-form__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.qr-form__error {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+  min-height: 1em;
+}
+
+/* ─── ADVANCED OPTIONS ─── */
+
+.qr-advanced {
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.qr-advanced__summary {
+  padding: 10px 14px;
+  background: var(--color-surface-hover);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  user-select: none;
+}
+
+.qr-advanced__summary:hover {
+  background: var(--color-border-light);
+}
+
+.qr-advanced__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 16px;
+}
+
+.qr-advanced__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.qr-advanced__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.qr-advanced__select,
+.qr-advanced__color,
+.qr-advanced__file {
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.8125rem;
+  font-family: var(--font-sans);
+}
+
+.qr-advanced__color {
+  width: 100%;
+  height: 36px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.qr-advanced__file {
+  font-size: 0.75rem;
+}
+
+.qr-form__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─── QR RESULT ─── */
+
+.qr-result {
+  margin-top: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+}
+
+.qr-result__canvas-wrapper {
+  display: inline-block;
+  padding: 16px;
+  background: white;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.qr-result__canvas-wrapper canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.qr-result__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .qr-advanced__grid {
+    grid-template-columns: 1fr;
+  }
+}
